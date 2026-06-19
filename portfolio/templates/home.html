@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #050505;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #8b5cf6;
+            --accent-glow: rgba(139, 92, 246, 0.4);
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.05);
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(76, 29, 149, 0.15), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(30, 58, 138, 0.15), transparent 25%);
+            color: var(--text-main); 
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: -0.02em;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 var(--accent-glow); }
+            70% { box-shadow: 0 0 0 15px rgba(139, 92, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header */
+        header { 
+            text-align: center; 
+            padding: 60px 20px;
+            margin-bottom: 40px;
+        }
+
+        header img { 
+            width: 140px; 
+            height: 140px; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            border: 2px solid transparent; 
+            background: linear-gradient(var(--bg-color), var(--bg-color)) padding-box, 
+                        linear-gradient(45deg, #ec4899, #8b5cf6) border-box;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+            animation: pulseGlow 3s infinite;
+        }
+
+        header h1 { 
+            font-size: 3em; 
+            font-weight: 800;
+            background: linear-gradient(to right, #f8fafc, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        header .job-title { 
+            color: var(--accent); 
+            font-size: 1.2em;
+            font-weight: 500;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        header .desc { 
+            color: var(--text-muted);
+            max-width: 600px; 
+            margin: 0 auto; 
+            font-size: 1.1em;
+        }
+
+        /* Sections */
+        section { 
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 40px; 
+            border-radius: 20px; 
+            border: 1px solid var(--card-border);
+            margin-bottom: 40px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 { 
+            font-size: 2em;
+            color: var(--text-main); 
+            margin-bottom: 30px; 
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2::after {
+            content: '';
+            height: 2px;
+            flex-grow: 1;
+            background: linear-gradient(to right, var(--card-border), transparent);
+        }
+
+        /* Cards */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card { 
+            background: rgba(255, 255, 255, 0.02); 
+            padding: 25px; 
+            border-radius: 12px; 
+            border: 1px solid var(--card-border);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.04);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-color: rgba(255,255,255,0.1);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card h3 { 
+            font-size: 1.3em;
+            color: var(--text-main); 
+            margin-bottom: 5px;
+        }
+
+        .card .subtitle { 
+            color: var(--accent); 
+            font-size: 0.9em;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .card p { 
+            color: var(--text-muted); 
+            font-size: 0.95em;
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .skill-pill { 
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--card-border);
+            padding: 12px 20px; 
+            border-radius: 30px; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+            cursor: default;
+        }
+
+        .skill-pill:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: var(--accent);
+        }
+
+        .skill-pill .name {
+            font-weight: 500;
+        }
+
+        .skill-pill .level { 
+            color: var(--accent);
+            font-size: 0.85em; 
+            font-weight: 700;
+        }
+
+        /* Projects */
+        .tech-stack {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tech-tag {
+            background: rgba(139, 92, 246, 0.1);
+            color: #a78bfa;
+            font-size: 0.8em;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        footer { 
+            text-align: center; 
+            padding: 40px 20px; 
+            color: var(--text-muted); 
+            font-size: 0.9em;
+            border-top: 1px solid var(--card-border);
+            margin-top: 60px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.5em; }
+            section { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header class="animate-fade-in">
+        {% if bio.profile_picture %}
+        <img src="{{ bio.profile_picture.url }}" alt="Profile Picture">
+        {% endif %}
+        <h1>{{ bio.name }}</h1>
+        <p class="job-title">{{ bio.job_title }}</p>
+        <p class="desc">{{ bio.description }}</p>
+    </header>
+
+    <section class="animate-fade-in delay-1">
+        <h2>Experience</h2>
+        <div class="grid-container">
+            {% for exp in experience %}
+            <div class="card">
+                <h3>{{ exp.title }}</h3>
+                <p class="subtitle">{{ exp.company }} &bull; {{ exp.duration }}</p>
+                <p>{{ exp.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="animate-fade-in delay-2">
+        <h2>Projects</h2>
+        <div class="grid-container">
+            {% for project in projects %}
+            <div class="card">
+                <h3>{{ project.title }}</h3>
+                <p>{{ project.description }}</p>
+                {% if project.tech_used %}
+                <div class="tech-stack">
+                    <span class="tech-tag">{{ project.tech_used }}</span>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="animate-fade-in delay-3">
+        <h2>Education</h2>
+        <div class="grid-container">
+            {% for edu in education %}
+            <div class="card">
+                <h3>{{ edu.degree }}</h3>
+                <p class="subtitle">{{ edu.institution }} &bull; {{ edu.year }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="animate-fade-in delay-3">
+        <h2>Skills</h2>
+        <div class="skills-grid">
+            {% for skill in skills %}
+            <div class="skill-pill">
+                <span class="name">{{ skill.name }}</span>
+                <span class="level">{{ skill.level }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 {{ bio.name }} | Built with Django</p>
+    </footer>
+</div>
+
+</body>
+</html>
